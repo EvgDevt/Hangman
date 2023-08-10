@@ -25,7 +25,7 @@ public class IOHandler {
 		
 		System.out.println(NAME_QUESTION);
 		player.setName(sc.nextLine());
-		
+		System.out.println();
 		System.out.println(START_QUESTION.formatted(player.getName()));
 
 		do {

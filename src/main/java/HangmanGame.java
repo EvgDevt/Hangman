@@ -28,7 +28,9 @@ public class HangmanGame {
 		try (Scanner sc = new Scanner(System.in)) {
 			ioHandler.greet(player, sc);
 			
-			System.out.println(wordToGuess);
+			
+//			System.out.println(wordToGuess);
+			
 			while (player.isPlaying()) {
 				makeGuess(player, sc, wordToGuess, playerGuesses);
 				
