@@ -1,12 +1,6 @@
 
-// Класс HangmanDrawing предоставляет рисунки ASCII для игры Виселица в зависимости от количества неправильных попыток.
 public class HangmanDrawing {
 
-	
-	/**
-	 * Рисует виселицу в зависимости от количества неправильных попыток.
-	 * @param incorrectGuesses Количество неправильных попыток.
-	 */
 	public static void drawHangman(int incorrectGuesses) {
 
 		switch (incorrectGuesses) {

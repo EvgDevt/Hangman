@@ -3,7 +3,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-// Класс Player представляет игрока в игре Виселица и отслеживает его игровую статистику.
+
 public class Player {
 	
 	private String name;
@@ -21,16 +21,12 @@ public class Player {
 		this.wrongGuessedLetters = new HashSet<>();
 	}
 	
-	/**
-	 * Увеличивает количество неправильных попыток.
-	 */
+
 	public void incrementIncorrectGuesses() {
 		incorrectGuesses++;
 	}
 	
-	/**
-	 * Увеличивает количество правильных попыток.
-	 */
+
 	public void incrementCorrectGuesses() {
 		correctGuesses++;
 	}

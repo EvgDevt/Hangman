@@ -9,16 +9,13 @@ public class HangmanGame {
 	private final WordsRepository wordsRepository;
 	private final IOHandler ioHandler;
 	private String wordToGuess; 
-	private List<Character> playerGuesses;
-	private Set<Character> wrongGuessedLetters;
+
 	
 	public HangmanGame(Player player, WordsRepository wordsRepository, IOHandler ioHandler) {
 		this.player = player;
 		this.wordsRepository = wordsRepository;
 		this.ioHandler = ioHandler;
 		this.wordToGuess = wordsRepository.getRandomWord();
-		playerGuesses = player.getPlayerGuesses();
-		wrongGuessedLetters = player.getWrongGuessedLetters();
 	}
 	
 	/**
@@ -32,9 +29,9 @@ public class HangmanGame {
 //			System.out.println(wordToGuess);
 			
 			while (player.isPlaying()) {
-				makeGuess(player, sc, wordToGuess, playerGuesses);
+				makeGuess(player, sc, wordToGuess, player.getPlayerGuesses(), player.getWrongGuessedLetters());
 				
-				if (isWordGuessed(wordToGuess, playerGuesses)) {
+				if (isWordGuessed(wordToGuess, player.getPlayerGuesses())) {
 					System.out.println("\nВы победили, %s!".formatted(player.getName()));
 					player.setPlaying(false);
 					replay(player, sc);
@@ -61,8 +58,9 @@ public class HangmanGame {
 	 * @param sc Сканер для чтения пользовательского ввода.
 	 * @param word Слово для угадывания.
 	 * @param guesses Угаданные буквы игрока.
+	 * @param wrongGuesses Ошибочные попытки.
 	 */
-	private void makeGuess(Player player, Scanner sc, String word, List<Character> guesses) {
+	private void makeGuess(Player player, Scanner sc, String word, List<Character> guesses, Set<Character> wrongGuesses) {
 		printWordState(word, guesses);
 		System.out.println("Пожалуйста введите букву:");
 
@@ -73,7 +71,7 @@ public class HangmanGame {
 			guesses.add(guessedLetter);
 		} else {
 			player.incrementIncorrectGuesses();
-			wrongGuessedLetters.add(guessedLetter);
+			wrongGuesses.add(guessedLetter);
 			HangmanDrawing.drawHangman(player.getIncorrectGuesses());
 			System.out.println("Количество неудачных попыток: " + player.getIncorrectGuesses());
 			System.out.print("Ошибки: ");
@@ -81,11 +79,6 @@ public class HangmanGame {
 		}
 	}
 
-	/**
-	 * Запрашивает у игрока повтор игры и обрабатывает его ответ.
-	 * @param player Объект игрока.
-	 * @param sc Сканер для чтения пользовательского ввода.
-	 */
 	private void replay(Player player, Scanner sc) {
 		printEndGameData();
 		player.setPlaying(false);
@@ -98,16 +91,15 @@ public class HangmanGame {
 	 */
 	private void resetGameState() {
 		wordToGuess = wordsRepository.getRandomWord();
-		playerGuesses.clear();
-		wrongGuessedLetters.clear();
+		player.getPlayerGuesses().clear();
+		player.getWrongGuessedLetters().clear();
 		player.setCorrectGuesses(0);
 		player.setIncorrectGuesses(0);
 	}
 
 	/**
-	 * Выводит состояние слова на экран. Печатает символы слова, заменяя неугаданные буквы символами "-".
-	 * @param word Слово для отображения состояния.
-	 * @param guesses Список угаданных букв игрока.
+	 * Выводим состояние слова на экран.
+	 * Изначально буквы слова представлены в виде символа "-"
 	 */
 	private void printWordState(String word, List<Character> guesses) {
 		for (int i = 0; i < word.length(); i++) {
@@ -122,13 +114,13 @@ public class HangmanGame {
 	}
 	
 	/**
-	 * Выводит список неправильно угаданных букв на экран.
-	 * Если список пуст, выводит сообщение "отсутствуют".
+	 * Выводим список неправильно угаданных букв на экран.
+	 * Если список пуст, выводим сообщение "отсутствуют" ?TODO.
 	 */
 	private void printWrongGuessedLetters() {
 		StringBuilder sb = new StringBuilder();
 		
-		for (char letter : wrongGuessedLetters) {
+		for (char letter : player.getWrongGuessedLetters()) {
 			sb.append(letter)
 				.append(", ");
 		}
@@ -141,14 +133,14 @@ public class HangmanGame {
 	}
 
 	/**
-	 * Проверяет ввод игрока на корректность в соответствии
+	 * Проверяем ввод игрока на корректность в соответствии
 	 * с заданными критериями.
 	 */
 	private char validateLetterInput(Scanner sc) {
 		while(true) {
 			String input = sc.nextLine().trim().toLowerCase();
 			if (input.length() != 1 || !Character.isLetter(input.charAt(0))) {
-				System.out.println("Притормози ка! По одной букве за раз, и только букве!");
+				System.out.println("Некорректный ввод");
 			} else {
 					return input.charAt(0);
 			}

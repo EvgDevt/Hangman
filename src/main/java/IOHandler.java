@@ -1,6 +1,8 @@
 import java.util.Scanner;
 
-// Класс IOHandler обрабатывает ввод и вывод взаимодействия с игроком.
+/**
+ * Класс обработки ввода игрока.
+ */
 public class IOHandler {
 	
 	private static final String WELCOME_MESSAGE = "~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~\n   "
@@ -11,15 +13,10 @@ public class IOHandler {
 	private static final String PLAYER_REFUSE_PROMPT = "До новых встреч, %s.";
 	private static final String INVALID_INPUT_PROMPT = "Вы сделали некорректный ввод, %s!";
 	private static final String ACCEPTABLE_ANSWERS_PROMPT = "Введите \"да\" или \"д\", чтобы начать.  Введите \"нет\" или \"н\", чтобы выйти.";
-	
 	private static final String REPLAY_QUESTION = "\nХотите сыграть еще раз?";
 	private boolean validInput;
 	
-	/**
-	 * Приветствует игрока и настраивает начальное состояние игры.
-	 * @param player Объект игрока.
-	 * @param sc Сканер для чтения пользовательского ввода.
-	 */
+	
 	public void greet(Player player, Scanner sc) {
 		System.out.println(WELCOME_MESSAGE);
 		
@@ -34,9 +31,7 @@ public class IOHandler {
 	}
 	
 	/**
-	 * Запрашивает у игрока повтор игры и обрабатывает его ответ.
-	 * @param player Объект игрока.
-	 * @param sc Сканер для чтения пользовательского ввода.
+	 * Запрашиваем у игрока повтор игры
 	 */
 	public void askForReplay(Player player, Scanner sc) {
 		System.out.println(REPLAY_QUESTION);
@@ -46,10 +41,7 @@ public class IOHandler {
 	}
 
 	/**
-	 * Обрабатывает ввод игрока и обновляет состояние игры соответственно.
-	 * @param player Объект игрока.
-	 * @param sc Сканер для чтения пользовательского ввода.
-	 * @return true, если ввод корректен, false в противном случае.
+	 * Обрабатываем ввод игрока.
 	 */
 	private boolean processPlayerInput(Player player, Scanner sc) {
 		System.out.println("Да/Нет:");

@@ -4,7 +4,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -17,13 +16,11 @@ public class Parser {
 	private static final char[] LETTERS = { 'А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж', 'З', 'И', 'К', 'Л', 'М', 'Н', 'О',
 			'П', 'Р', 'С', 'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Э', 'Ю', 'Я' };
 	private static final String BASIC_URL = "https://kupidonia.ru/spisok/spisok-suschestvitelnyh-russkogo-jazyka/bukva/";
-	private static final int MAX_WORDS_PER_LETTER = 1;
 	private static final String HTML_CLASS_NAME = "position_title";
 
 	
 	/**
-	* Получает слова с произвольной первой буквой с веб-сайта.
-	* @return Список слов, соответствующих заданным критериям.
+	* Получаем слова с произвольной первой буквой с веб-сайта.
 	*/
 	public List<String> fetchWordsOfRandomFirstLetter() {
 
@@ -40,7 +37,6 @@ public class Parser {
 					wordList.add(word);
 			});
 
-			wordList.addAll(wordList.stream().limit(MAX_WORDS_PER_LETTER).collect(Collectors.toList()));
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -49,10 +45,7 @@ public class Parser {
 	}
 
 	/**
-	 * Строит случайный URL, используя базовый URL и случайную букву из массива букв.
-	 * @param url Базовый URL.
-	 * @param letters Массив букв для построения URL.
-	 * @return Строка с конструированным случайным URL.
+	 * Строим случайный URL, используя базовый URL и случайную букву из массива букв.
 	 */
 	private String constructRandomUrl(String url, char[] letters) {
 		Random random = new Random();
@@ -61,13 +54,10 @@ public class Parser {
 	}
 
 	/**
-	 * Кодирует букву в URL-кодировку с использованием кодировки UTF-8.
-	 * @param letter Буква для кодирования.
-	 * @return Закодированная в URL-кодировку буква.
+	 * Кодируем букву в URL-кодировку с использованием UTF-8.
 	 */
 	private String encodeLetterToUrlCode(char letter) {
 		String letterAsString = String.valueOf(letter);
 		return URLEncoder.encode(letterAsString, StandardCharsets.UTF_8);
-
 	}
 }
